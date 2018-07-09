@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <p><a href="{% url 'index' %}">На главную</a></p>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

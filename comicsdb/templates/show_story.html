@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ story.name }}{% endblock %}
+{% block body %}
+    <table border="1">
+        <tr>
+            <td>Название</td>
+            <td>{{ story.name }}</td>
+        </tr>
+        <tr>
+            <td>Сценарий</td>
+            <td>{{ story.plot |safe }}</td> {# TODO: нормальные переводы строки#}
+        </tr>
+        <tr>
+            <td>Оценка</td>
+            <td>{{ story.rating }}</td>
+        </tr>
+        <tr>
+            <td>Сценаристы</td>
+            <td>
+                {% for scriptwriter in storyscriptwriters %}
+                    <p>{{ scriptwriter }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Художники</td>
+            <td>
+                {% for artist in storyartists %}
+                    <p>{{ artist }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Выпуски</td>
+            <td>
+                {% for issue in storyissues %}
+                    <p>{{ issue }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Герои</td>
+            <td>
+                {% for character in storycharacters %}
+                    <p><a href="{% url 'search_for_character' character.id %}">{{ character }}</a></p>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+

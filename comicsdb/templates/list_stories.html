@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Краткий пересказ историй из комиксов. Список{% endblock %}
+{% block body %}
+    <ol>
+        {% for story in stories %}
+            <li><a href="{% url 'show_story' story.id %}">{{ story }}</a></li>
+        {% endfor %}
+    </ol>
+{% endblock %}

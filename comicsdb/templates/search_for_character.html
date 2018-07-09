@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Истории про {{ character.name }}{% endblock %}
+{% block body %}
+    <h2>{{ character }}</h2>
+    <table border="1">
+        {% for story in stories %}
+            <tr>
+                <td>
+                    {% for issue in story.issues.all %}
+                        <p>{{ issue }}</p>
+                    {% endfor %}
+                </td>
+                <td>{{ story.safe_plot |safe }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
