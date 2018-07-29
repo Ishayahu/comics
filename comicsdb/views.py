@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from comicsdb.models import Story, Character
-# from comicsdb.models import Story, StoryArtists, StoryScripwriters, StoryIssue, CharacterStory
+from django.contrib.syndication.views import Feed
 
 
 # Create your views here.
@@ -72,5 +72,23 @@ def list_stories(request):
 
 def search_for_character(request, character_id):
     character = Character.objects.get(id = character_id)
-    stories = sorted(character.story_set.all(), key = lambda x: x.first_issue())
+    stories = sorted(character.story_set.all(), key=lambda x: x.first_issue(), reverse=True)
     return render(request, 'search_for_character.html', {'stories': stories, 'character':character})
+
+class LatestEntriesFeed(Feed):
+    title = "Краткое содержание комиксов"
+    link = "/comicsdb/"
+    description = "Пересказ сюжетов комиксов, чтобы быстро вспомнить"
+
+    def items(self):
+        return Story.objects.order_by('-pk')[:5]
+
+    def item_title(self, item: Story):
+        return item.name
+
+    def item_description(self, item: Story):
+        return item.plot
+
+    # item_link is only needed if NewsItem has no get_absolute_url method.
+    def item_link(self, item: Story):
+        return reverse('show_story', args=[item.pk])

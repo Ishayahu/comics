@@ -3,7 +3,7 @@
 {% block body %}
     <ol>
         {% for story in stories %}
-            <li><a href="{% url 'show_story' story.id %}">{{ story }}</a></li>
+            <li><a href="{% url 'show_story' story.id %}">{{ story | safe}}</a></li>
         {% endfor %}
     </ol>
 {% endblock %}
