@@ -2,8 +2,14 @@
 {% block title %}Краткий пересказ историй из комиксов. Список{% endblock %}
 {% block body %}
     <ol>
+        {% for arc in arcs %}
+            <li><a href="{% url 'show_arc' arc.id %}">{{ arc.name }}</a> {{ arc.comment }}</li>
+        {% endfor %}
+    </ol>
+    <hr />
+    <ol>
         {% for story in stories %}
-            <li><a href="{% url 'show_story' story.id %}">{{ story | safe}}</a></li>
+            <li><a href="{% url 'show_story' story.id %}">{{ story | safe}}</a> {{ story.annotation }}</li>
         {% endfor %}
     </ol>
 {% endblock %}

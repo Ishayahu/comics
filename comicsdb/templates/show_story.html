@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}{{ story.name }}{% endblock %}
+{% block head %}
+	<!-- OpenGraph -->
+	<meta property="og:title" content="{{story.name}}" />
+	<meta property="og:description" content="{{ story.annotation}}" />
+	<meta property="og:locale" content="ru_RU" />
+	<meta property="og:type" content="book" />
+	<meta property="book:author" content="{% for scriptwriter in storyscriptwriters %}{{ scriptwriter }},{% endfor %}" />
+{#	<meta property="book:tag" content="" />#}
+	<meta property="og:url" content= "{% url 'show_story' story.id %}" />
+	<!-- End OpenGraph -->
+{% endblock %}
 {% block body %}
     <table border="1">
         <tr>
             <td>Название</td>
             <td>{{ story.name }}</td>
+        </tr>
+        <tr>
+            <td>Аннотация</td>
+            <td>{{ story.annotation |safe }}</td> {# TODO: нормальные переводы строки#}
         </tr>
         <tr>
             <td>Сценарий</td>
@@ -31,6 +46,38 @@
             </td>
         </tr>
         <tr>
+            <td>Inkers</td>
+            <td>
+                {% for artist in inkers %}
+                    <p>{{ artist }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Letterers</td>
+            <td>
+                {% for artist in letterers %}
+                    <p>{{ artist }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Colorists</td>
+            <td>
+                {% for artist in colorists %}
+                    <p>{{ artist }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Editors</td>
+            <td>
+                {% for artist in editors %}
+                    <p>{{ artist }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
             <td>Выпуски</td>
             <td>
                 {% for issue in storyissues %}
@@ -46,6 +93,72 @@
                 {% endfor %}
             </td>
         </tr>
+        <tr>
+            <td>Дополнительная информация</td>
+            <td>
+                {% if story.video_url %}
+                    <li><a href="{{ story.video_url }}">{{ story.name }}</a></li>
+                {% endif %}
+            </td>
+        </tr>
     </table>
+    <div class="hidden">
+        <h1>{{ story.name }}</h1>
+        <p><i>{{ story.annotation |safe }}</i></p>
+        {{ story.plot |safe }}
+        <p><b>Оценка:</b> {{ story.rating }}</p>
+        <p><b>Сценаристы</b>:</p>
+            <ul>
+                {% for scriptwriter in storyscriptwriters %}
+                    <li>{{ scriptwriter }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Художники</b>:</p>
+            <ul>
+                {% for artist in storyartists %}
+                    <li>{{ artist }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Inkers</b>:</p>
+            <ul>
+                {% for artist in inkers %}
+                    <li>{{ artist }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Letterers</b>:</p>
+            <ul>
+                {% for artist in letterers %}
+                    <li>{{ artist }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Colorists</b>:</p>
+            <ul>
+                {% for artist in colorists %}
+                    <li>{{ artist }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Editors</b>:</p>
+            <ul>
+                {% for artist in editors %}
+                    <li>{{ artist }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Выпуски</b>:</p>
+            <ul>
+                {% for issue in storyissues %}
+                    <li>{{ issue }}</li>
+                {% endfor %}
+            </ul>
+        <p><b>Герои</b>:</p>
+            <ul>
+                {% for character in storycharacters %}
+                    <li><a href="{% url 'search_for_character' character.id %}">{{ character }}</a></li>
+                {% endfor %}
+            </ul>
+        {% if story.video_url %}
+            <p><a href="{{ story.video_url }}">Видео по комиксу</a></p>
+        {% endif %}
+    </div>
+
 {% endblock %}
 

@@ -18,6 +18,9 @@ class Human(models.Model):
     aliases = models.TextField(blank=True)
     link = models.URLField(blank=True, null=True)
 
+    class Meta:
+        ordering = ["surname"]
+
     def __str__(self):
         return "{} {} {}".format(self.surname, self.name, self.patronymic)
 
@@ -40,23 +43,37 @@ class Issue(models.Model):
     date = models.DateField()
     comment = models.TextField(blank=True)
     series = models.ForeignKey('Series', on_delete=models.PROTECT)
-    cover_artist = models.ForeignKey('Human', on_delete=models.PROTECT)
+    cover_artist = models.ForeignKey('Human', on_delete=models.PROTECT, blank = True, null = True)
 
     def __str__(self):
         return "{} @{} / {}".format(self.name, self.date, self.series)
 
+class StoryArc(models.Model):
+    name = models.CharField(max_length=300)
+    comment = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}: {self.comment}"
+
 
 class Story(models.Model):
     name = models.CharField(max_length=200)
+    annotation = models.TextField(blank = True)
     plot = models.TextField(blank=True)
     rating = models.IntegerField(null=True, blank=True)
     # issue = models.ForeignKey('Issue', on_delete=models.PROTECT)
-    scriptwriters = models.ManyToManyField('Human', related_name='screenwriter')
-    artists = models.ManyToManyField('Human', related_name='artist')
+    scriptwriters = models.ManyToManyField('Human', related_name='screenwriter', blank = True, null = True)
+    artists = models.ManyToManyField('Human', related_name='artist', blank = True, null = True)
+    inker = models.ManyToManyField('Human', related_name='inker', blank = True, null = True)
+    letterer = models.ManyToManyField('Human', related_name='letterer', blank = True, null = True)
+    colorist = models.ManyToManyField('Human', related_name='colorist', blank = True, null = True)
+    editor = models.ManyToManyField('Human', related_name='editor', blank = True, null = True)
     issues = models.ManyToManyField('Issue')
+    story_arc = models.ManyToManyField('StoryArc', related_name='stories', blank=True, null=True)
     characters = models.ManyToManyField('Character', blank=True)
+    video_url = models.URLField(blank=True)
 
-    def first_issue(self):
+    def first_issue_date(self):
         return sorted(self.issues.all(), key=lambda x: x.date)[0].date
 
     def __str__(self):
@@ -96,6 +113,7 @@ class Story(models.Model):
 
 class Character(models.Model):
     name = models.CharField(max_length=200)
+    key_events = models.TextField(blank = True)
     powers = models.TextField(blank=True)
     weaknesses = models.TextField(blank=True)
 

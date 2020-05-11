@@ -17,10 +17,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from comicsdb.views import list_stories
+from comicsdb.views import list_stories, get_story_by_name
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('', list_stories, name = 'index'),
     path('admin/', admin.site.urls),
+    path('story/<str:publisher>/<str:series>/<str:story_name>/', get_story_by_name),
     path('comicsdb/', include('comicsdb.urls')),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

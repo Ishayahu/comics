@@ -2,17 +2,72 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter49792228 = new Ya.Metrika2({
+                        id:49792228,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks2");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/49792228" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>
         {% block title %}
         {% endblock %}
     </title>
     {% block head %}
     {% endblock %}
+    <style>
+        .hidden{display: none}
+    </style>
 </head>
 <body>
-    <p><a href="{% url 'index' %}">На главную</a></p>
-    <p><a href="{% url 'stories_feed' %}">RSS лента</a></p>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <a href="{% url 'add_story' %}">Добавить историю</a>
+            </div>
+            <div class="col-sm">
+                <a href="{% url 'index' %}">На главную</a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.patreon.com/comicsdb">Поддержать</a>
+            </div>
+            <div class="col-sm">
+                <a href="{% url 'stories_feed' %}">RSS лента</a>
+            </div>
+        </div>
+    </div>
     {% block body %}
     {% endblock %}
+    <a href='https://xmpp.net/result.php?domain=x-synopsis.ru&amp;type=server'><img src='https://xmpp.net/badge.php?domain=x-synopsis.ru' alt='xmpp.net score' /></a>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <hr />
+    <p><a href="https://readcomiconline.to/">Читать комиксы онлайн</a></p>
+    <p><a href="http://zipcomic.com">Скачать комиксы</a></p>
 </body>
 </html>
